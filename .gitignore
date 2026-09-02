@@ -5,6 +5,9 @@ venv/
 __pycache__/
 *.pyc
 
+# Flask instance folder
+instance/
+
 # Environment variables
 .env
 
