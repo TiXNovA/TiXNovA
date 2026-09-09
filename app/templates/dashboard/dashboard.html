@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | TiXNovA</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f4f6f8;
+        }
+
+        .navbar {
+            height: 65px;
+            background: #111827;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .username {
+            font-size: 15px;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border: 1px solid #ffffff;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+        .logout:hover {
+            background: white;
+            color: #111827;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 25px;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        .welcome p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .actions {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .actions h2 {
+            margin-bottom: 20px;
+            color: #111827;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #111827;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            transition: 0.2s;
+        }
+
+        .action-button:hover {
+            background: #1f2937;
+        }
+
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            background: #e8f5e9;
+            color: #256029;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 15px;
+            }
+
+            .username {
+                display: none;
+            }
+
+            .container {
+                padding: 25px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            TiXNovA
+        </div>
+
+        <div class="user-section">
+
+            <span class="username">
+                Welcome, {{ user.username }}
+            </span>
+
+            <a
+                href="{{ url_for('auth.logout') }}"
+                class="logout"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+
+                    {% for category, message in messages %}
+                        <div class="flash">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+            {% endif %}
+        {% endwith %}
+
+
+        <section class="welcome">
+
+            <h1>
+                Welcome to TiXNovA 👋
+            </h1>
+
+            <p>
+                Your event management and smart ticketing dashboard.
+            </p>
+
+        </section>
+
+
+        <section class="cards">
+
+            <div class="card">
+
+                <h3>🎫 My Tickets</h3>
+
+                <p>
+                    View and manage your purchased event tickets.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>🎪 Events</h3>
+
+                <p>
+                    Explore upcoming events and available tickets.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>🔐 Secure Access</h3>
+
+                <p>
+                    TiXNovA uses secure authentication and smart
+                    ticketing technology.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="actions">
+
+            <h2>Quick Actions</h2>
+
+            <div class="action-buttons">
+
+                <a
+                    href="#"
+                    class="action-button"
+                >
+                    Browse Events
+                </a>
+
+                <a
+                    href="#"
+                    class="action-button"
+                >
+                    My Tickets
+                </a>
+
+                {% if user.role == "admin" %}
+                    <a
+                        href="#"
+                        class="action-button"
+                    >
+                        Create Event
+                    </a>
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
