@@ -1,14 +1,12 @@
-from app.services.totp_service import generate_ticket_secret, get_current_token, verify_token, build_qr_payload
+from app.services.totp_service import generate_ticket_secret, get_current_token
 import time
 
 secret = generate_ticket_secret()
 print("Secret:", secret)
 
-code1 = get_current_token(secret)
-print("Current code:", code1)
+print("Code abhi:", get_current_token(secret))
+print("31 second wait kar rahe hain...")
 
-is_valid = verify_token(secret, code1)
-print("Is this code valid?", is_valid)
+time.sleep(31)
 
-payload = build_qr_payload(ticket_id=1, totp_secret=secret)
-print("QR Payload:", payload)
+print("Code 31 second baad:", get_current_token(secret))
